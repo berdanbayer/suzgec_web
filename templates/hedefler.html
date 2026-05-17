@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Hedefler - Süzgeç{% endblock %}
+
+{% block content %}
+    <h2 class="font-h2 text-h2 text-primary dark:text-white mb-lg">Kişisel Hedeflerin</h2>
+
+    <form method="POST" action="/hedefler">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-xl">
+            <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-md rounded-xl border border-outline-variant dark:border-[#38485a] shadow-sm">
+                <div class="flex items-center gap-sm mb-md">
+                    <span class="material-symbols-outlined text-secondary">bedtime</span>
+                    <h3 class="font-bold dark:text-white">Uyku Hedefi</h3>
+                </div>
+                <input type="number" step="0.5" name="sleep_goal" value="{{ goal.sleep_goal if goal else 8.0 }}" class="w-full bg-surface-container-low dark:bg-[#0b1d2d] border border-outline-variant dark:border-[#38485a] rounded p-2 text-primary dark:text-white outline-none">
+                <p class="text-xs text-on-surface-variant dark:text-gray-400 mt-2">Günlük ideal uyku süren (Saat)</p>
+            </div>
+
+            <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-md rounded-xl border border-outline-variant dark:border-[#38485a] shadow-sm">
+                <div class="flex items-center gap-sm mb-md">
+                    <span class="material-symbols-outlined text-tertiary">water_drop</span>
+                    <h3 class="font-bold dark:text-white">Su Hedefi</h3>
+                </div>
+                <input type="number" name="water_goal" value="{{ goal.water_goal if goal else 8 }}" class="w-full bg-surface-container-low dark:bg-[#0b1d2d] border border-outline-variant dark:border-[#38485a] rounded p-2 text-primary dark:text-white outline-none">
+                <p class="text-xs text-on-surface-variant dark:text-gray-400 mt-2">Günlük içilmesi gereken bardak sayısı</p>
+            </div>
+
+            <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-md rounded-xl border border-outline-variant dark:border-[#38485a] shadow-sm">
+                <div class="flex items-center gap-sm mb-md">
+                    <span class="material-symbols-outlined text-error">devices</span>
+                    <h3 class="font-bold dark:text-white">Maksimum Ekran</h3>
+                </div>
+                <input type="number" step="0.5" name="screen_goal" value="{{ goal.screen_goal if goal else 4.0 }}" class="w-full bg-surface-container-low dark:bg-[#0b1d2d] border border-outline-variant dark:border-[#38485a] rounded p-2 text-primary dark:text-white outline-none">
+                <p class="text-xs text-on-surface-variant dark:text-gray-400 mt-2">Aşılmaması gereken günlük süre (Saat)</p>
+            </div>
+        </div>
+
+        <div class="flex justify-end">
+            <button type="submit" class="bg-primary dark:bg-white text-on-primary dark:text-primary font-bold px-xl py-sm rounded-lg hover:shadow-md transition-all active:scale-95">
+                Hedefleri Güncelle
+            </button>
+        </div>
+    </form>
+{% endblock %}

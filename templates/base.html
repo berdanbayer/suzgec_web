@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>{% block title %}Süzgeç{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#dbd9db", "surface-container-highest": "#e4e2e3", "inverse-on-surface": "#f2f0f2", "on-primary-container": "#8192a7", "error": "#ba1a1a", "surface": "#fbf9fa", "primary-container": "#1a2b3c", "secondary-container": "#d3e2ed", "secondary-fixed": "#d6e5ef", "on-secondary": "#ffffff", "on-primary-fixed": "#0b1d2d", "primary-fixed": "#d2e4fb", "outline-variant": "#c4c6cd", "on-surface-variant": "#44474c", "surface-container": "#efedef", "primary-fixed-dim": "#b7c8de", "on-secondary-fixed": "#0f1d25", "on-secondary-container": "#56656e", "error-container": "#ffdad6", "surface-container-high": "#e9e7e9", "on-tertiary-fixed": "#281802", "on-primary-fixed-variant": "#38485a", "on-error": "#ffffff", "inverse-primary": "#b7c8de", "surface-variant": "#e4e2e3", "on-secondary-fixed-variant": "#3b4951", "secondary-fixed-dim": "#bac9d3", "on-primary": "#ffffff", "tertiary-fixed": "#feddb5", "inverse-surface": "#303032", "background": "#fbf9fa", "secondary": "#526069", "surface-bright": "#fbf9fa", "on-tertiary-container": "#a88c69", "tertiary-fixed-dim": "#e1c29b", "on-tertiary-fixed-variant": "#584326", "surface-tint": "#4f6073", "primary": "#041627", "on-tertiary": "#ffffff", "tertiary": "#211200", "surface-container-low": "#f5f3f4", "on-background": "#1b1c1d", "surface-container-lowest": "#ffffff", "outline": "#74777d", "on-error-container": "#93000a", "on-surface": "#1b1c1d", "tertiary-container": "#38260b"
+                    },
+                    "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    "spacing": { "gutter": "24px", "margin": "32px", "xl": "80px", "sm": "12px", "md": "24px", "lg": "48px", "xs": "4px", "base": "8px" },
+                    "fontFamily": { "h1": ["Manrope"], "caption": ["Manrope"], "h2": ["Manrope"], "body-md": ["Manrope"], "body-lg": ["Manrope"], "h3": ["Manrope"], "label-bold": ["Manrope"] }
+                }
+            }
+        }
+    </script>
+    <style> body { font-family: 'Manrope', sans-serif; } </style>
+</head>
+<body class="bg-background text-on-surface dark:bg-[#0b1d2d] dark:text-[#f2f0f2] min-h-screen">
+
+</body>
+    <header class="bg-surface dark:bg-[#1a2b3c] docked full-width top-0 z-10 flex justify-between items-center w-full pl-[288px] pr-margin py-md fixed border-b border-surface-variant dark:border-[#38485a]">
+        <div>
+            <h1 class="font-h3 text-h3 font-bold text-primary dark:text-white">Hoş geldin, {{ current_user.fullname }}</h1>
+            <p class="font-body-md text-body-md text-on-surface-variant dark:text-gray-300"></p>{{ bugunun_tarihi }} - <span class="font-bold text-primary dark:text-white">{{ bugunun_saati }}</span>
+     </p>
+        </div>
+        <div class="flex gap-sm">
+           <button onclick="toggleNotifications()" class="p-base rounded-full hover:bg-surface-variant dark:hover:bg-[#0b1d2d] transition-colors text-on-surface-variant dark:text-gray-300 hover:text-primary dark:hover:text-white">
+    <span class="material-symbols-outlined">notifications</span>
+</button>
+            <button onclick="toggleCalendar()" class="p-base rounded-full hover:bg-surface-variant dark:hover:bg-[#0b1d2d] transition-colors text-on-surface-variant dark:text-gray-300 hover:text-primary dark:hover:text-white">
+    <span class="material-symbols-outlined">calendar_today</span>
+</button>
+        </div>
+    </header>
+<nav class="bg-surface dark:bg-[#1a2b3c] shadow-sm h-screen w-64 fixed left-0 top-0 z-20 flex flex-col justify-between py-md px-sm border-r border-surface-variant dark:border-[#38485a]">
+        
+        <div>
+            <div class="flex items-center gap-3 px-sm mb-lg">
+                <img src="{{ url_for('static', filename='screen.png') }}" alt="Süzgeç Logo" class="h-10 w-10">
+                <div>
+                    <h2 class="font-h3 text-h3 font-bold text-primary dark:text-white leading-tight">Süzgeç</h2>
+                    <p class="font-caption text-caption text-on-surface-variant dark:text-gray-300 -mt-1">Verimlilik Takibi</p>
+                </div>
+            </div>
+            
+            <div class="space-y-xs">
+                <a href="/" class="flex items-center gap-sm px-sm py-base rounded-DEFAULT font-body-md text-body-md transition-colors hover:bg-secondary-container dark:hover:bg-[#0b1d2d] {% if request.endpoint == 'home' %}text-primary dark:text-white font-bold border-r-4 border-primary dark:border-white{% else %}text-on-surface-variant dark:text-gray-400{% endif %}">
+                    <span class="material-symbols-outlined" {% if request.endpoint == 'home' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>home</span> Ana Sayfa
+                </a>
+                <a href="/grafikler" class="flex items-center gap-sm px-sm py-base rounded-DEFAULT font-body-md text-body-md transition-colors hover:bg-secondary-container dark:hover:bg-[#0b1d2d] {% if request.endpoint == 'grafikler' %}text-primary dark:text-white font-bold border-r-4 border-primary dark:border-white{% else %}text-on-surface-variant dark:text-gray-400{% endif %}">
+                    <span class="material-symbols-outlined" {% if request.endpoint == 'grafikler' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>insights</span> Grafikler
+                </a>
+                <a href="/hedefler" class="flex items-center gap-sm px-sm py-base rounded-DEFAULT font-body-md text-body-md transition-colors hover:bg-secondary-container dark:hover:bg-[#0b1d2d] {% if request.endpoint == 'hedefler' %}text-primary dark:text-white font-bold border-r-4 border-primary dark:border-white{% else %}text-on-surface-variant dark:text-gray-400{% endif %}">
+                    <span class="material-symbols-outlined" {% if request.endpoint == 'hedefler' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>center_focus_strong</span> Hedefler
+                </a>
+                <a href="/ayarlar" class="flex items-center gap-sm px-sm py-base rounded-DEFAULT font-body-md text-body-md transition-colors hover:bg-secondary-container dark:hover:bg-[#0b1d2d] {% if request.endpoint == 'ayarlar' %}text-primary dark:text-white font-bold border-r-4 border-primary dark:border-white{% else %}text-on-surface-variant dark:text-gray-400{% endif %}">
+                    <span class="material-symbols-outlined" {% if request.endpoint == 'ayarlar' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>settings</span> Ayarlar
+                </a>
+            </div>
+        </div>
+
+        <div class="space-y-xs pt-md border-t border-surface-variant dark:border-[#38485a]">
+            <a href="/yardim" class="flex items-center gap-sm px-sm py-base rounded-DEFAULT font-body-md text-body-md text-on-surface-variant dark:text-gray-400 hover:bg-secondary-container dark:hover:bg-[#0b1d2d] transition-colors">
+                <span class="material-symbols-outlined">help_outline</span> Yardım Merkezi
+            </a>
+            <a href="/logout" class="flex items-center gap-sm px-sm py-base rounded-DEFAULT font-body-md text-body-md text-error hover:bg-error-container dark:hover:bg-error-container/20 transition-colors">
+                <span class="material-symbols-outlined">logout</span> Çıkış
+            </a>
+        </div>
+    </nav>
+   
+    <main class="ml-64 pt-[104px] p-margin max-w-[1200px] mx-auto">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+    // Her sayfa açılışında temayı kontrol eder
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+</script>
+<div id="notificationOverlay" class="fixed inset-0 bg-on-surface/40 z-40 hidden transition-opacity duration-300 opacity-0"></div>
+
+<div id="notificationDrawer" class="fixed right-0 top-0 h-full w-[360px] bg-surface-container-lowest dark:bg-[#1a2b3c] shadow-lg z-50 flex flex-col border-l border-surface-variant dark:border-[#38485a] transform translate-x-full transition-transform duration-300">
+    <div class="p-md flex items-center justify-between border-b border-surface-variant dark:border-[#38485a]">
+        <h2 class="font-h3 text-h3 text-primary dark:text-white">Bildirimler</h2>
+        <button onclick="toggleNotifications()" class="p-xs rounded-full hover:bg-surface-variant dark:hover:bg-[#0b1d2d] transition-colors text-on-surface-variant">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    <div class="flex-1 overflow-y-auto">
+        <div class="p-md border-b border-surface-variant dark:border-[#38485a] hover:bg-surface-container-low dark:hover:bg-[#0b1d2d] transition-colors cursor-pointer flex gap-md items-start">
+            <div class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined">emoji_events</span>
+            </div>
+            <div>
+                <h4 class="font-label-bold text-label-bold text-primary dark:text-white mb-xs">Hedefinize ulaştınız!</h4>
+                <p class="font-body-md text-body-md text-on-surface-variant dark:text-gray-300">Günlük su içme hedefinizi başarıyla tamamladınız. Harika gidiyorsunuz!</p>
+                <span class="font-caption text-caption text-outline dark:text-gray-500 mt-xs block">2 saat önce</span>
+            </div>
+        </div>
+        </div>
+</div>
+<script> 
+function toggleNotifications() {
+    const drawer = document.getElementById('notificationDrawer');
+    const overlay = document.getElementById('notificationOverlay');
+    
+    if (drawer.classList.contains('translate-x-full')) {
+        // Paneli Aç
+        drawer.classList.remove('translate-x-full');
+        drawer.classList.add('translate-x-0');
+        overlay.classList.remove('hidden');
+        setTimeout(() => overlay.classList.add('opacity-100'), 10);
+    } else {
+        // Paneli Kapat
+        drawer.classList.add('translate-x-full');
+        drawer.classList.remove('translate-x-0');
+        overlay.classList.remove('opacity-100');
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+    }
+}
+
+// Karartma katmanına tıklandığında da kapansın
+document.getElementById('notificationOverlay').addEventListener('click', toggleNotifications);
+   </script>
+   <div id="calendarDrawer" class="fixed right-0 top-0 h-full w-[400px] bg-surface-container-lowest dark:bg-[#1a2b3c] shadow-lg z-50 flex flex-col border-l border-surface-variant dark:border-[#38485a] transform translate-x-full transition-transform duration-300">
+    <div class="p-md flex items-center justify-between border-b border-surface-variant dark:border-[#38485a]">
+        <h3 class="font-h3 text-h3 text-primary dark:text-white font-bold">Takvim</h3>
+        <button onclick="toggleCalendar()" class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container dark:hover:bg-[#0b1d2d] hover:text-primary transition-colors">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+
+    <div class="p-md flex-1 overflow-y-auto space-y-lg">
+        <div class="bg-surface-container-lowest dark:bg-[#0b1d2d] rounded-lg border border-surface-variant dark:border-[#38485a] shadow-sm p-sm">
+            <div class="flex items-center justify-between mb-md px-sm pt-sm">
+                <button class="text-on-surface-variant dark:text-gray-400 hover:text-primary">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <h4 class="font-label-bold text-label-bold text-primary dark:text-white text-lg">Mayıs 2026</h4>
+                <button class="text-on-surface-variant dark:text-gray-400 hover:text-primary">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-7 gap-1 mb-sm px-sm text-center font-caption text-on-surface-variant">
+                <div>Pzt</div><div>Sal</div><div>Çar</div><div>Per</div><div>Cum</div><div>Cmt</div><div>Paz</div>
+            </div>
+            </div>
+
+        <div>
+            <h4 class="font-label-bold text-label-bold text-primary dark:text-white mb-sm flex items-center gap-xs">
+                <span class="material-symbols-outlined text-[18px]">list_alt</span> Günün Özeti
+            </h4>
+            </div>
+    </div>
+</div>
+<script>  function toggleCalendar() {
+    const calendar = document.getElementById('calendarDrawer');
+    const overlay = document.getElementById('notificationOverlay'); // Aynı karartma katmanını kullanıyoruz
+    const notifications = document.getElementById('notificationDrawer');
+
+    // Eğer bildirim paneli açıksa kapat
+    if (!notifications.classList.contains('translate-x-full')) {
+        toggleNotifications();
+    }
+
+    if (calendar.classList.contains('translate-x-full')) {
+        calendar.classList.remove('translate-x-full');
+        calendar.classList.add('translate-x-0');
+        overlay.classList.remove('hidden');
+        setTimeout(() => overlay.classList.add('opacity-100'), 10);
+    } else {
+        calendar.classList.add('translate-x-full');
+        calendar.classList.remove('translate-x-0');
+        overlay.classList.remove('opacity-100');
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+    }
+}
+
+// Karartma katmanına tıklandığında takvimin de kapanması için event listener'ı güncelle
+document.getElementById('notificationOverlay').addEventListener('click', () => {
+    const calendar = document.getElementById('calendarDrawer');
+    if (!calendar.classList.contains('translate-x-full')) {
+        toggleCalendar();
+    }
+});
+  </script>
+</body>
+</html>

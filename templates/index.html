@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Ana Sayfa - Süzgeç{% endblock %}
+
+{% block content %}
+    <h2 class="font-h2 text-h2 text-primary dark:text-white mb-md">Bugünkü Durumun</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-4 rounded-xl border border-outline-variant dark:border-[#38485a] shadow-sm">
+            <p class="text-sm font-bold text-primary dark:text-gray-400 mb-1">Ruh Hali</p>
+            <p class="text-xl font-semibold dark:text-white">{% if veri %}{{ veri.mood }}{% else %}--{% endif %}</p>
+        </div>
+        <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-4 rounded-xl border border-outline-variant dark:border-[#38485a] shadow-sm">
+            <p class="text-sm font-bold text-secondary dark:text-gray-400 mb-1">Uyku</p>
+            <p class="text-xl font-semibold dark:text-white">{% if veri %}{{ veri.sleep_start }} - {{ veri.sleep_end }}{% else %}-- : --{% endif %}</p>
+        </div>
+        <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-4 rounded-xl border border-outline-variant dark:border-[#38485a] shadow-sm">
+            <p class="text-sm font-bold text-tertiary dark:text-gray-400 mb-1">Su</p>
+            <p class="text-xl font-semibold dark:text-white">{% if veri %}{{ veri.water }} Bardak{% else %}0 Bardak{% endif %}</p>
+        </div>
+        <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-4 rounded-xl border border-outline-variant dark:border-[#38485a] shadow-sm">
+            <p class="text-sm font-bold text-error dark:text-gray-400 mb-1">Ekran</p>
+            <p class="text-xl font-semibold dark:text-white">{% if veri %}{{ veri.screen_time }} Saat{% else %}0 Saat{% endif %}</p>
+        </div>
+    </div>
+
+    <hr class="border-outline-variant dark:border-[#38485a] mb-8">
+
+    <h2 class="font-h2 text-h2 text-primary dark:text-white mb-6">Veri Girişi Yap</h2>
+    
+    <form method="POST" action="/">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            
+            <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] rounded-lg shadow-sm border-t-2 border-primary dark:border-[#b7c8de] p-4 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-primary dark:text-white mb-1">Ruh Hali</h3>
+                    <p class="text-sm text-on-surface-variant dark:text-gray-400 mb-4">Bugün nasıl hissediyorsun?</p>
+                </div>
+                
+                <input type="hidden" name="mood_status" id="selectedMood" value="{% if veri %}{{ veri.mood }}{% else %}Nötr{% endif %}">
+
+                <div class="flex justify-between items-center bg-surface-container-low dark:bg-[#0b1d2d] p-2 rounded-lg">
+                    <button type="button" onclick="setMood('Çok Kötü', this)" class="mood-btn p-2 rounded-full hover:bg-secondary-container dark:hover:bg-[#38485a] dark:text-gray-400 transition-all">
+                        <span class="material-symbols-outlined text-[32px]">sentiment_very_dissatisfied</span>
+                    </button>
+                    <button type="button" onclick="setMood('Kötü', this)" class="mood-btn p-2 rounded-full hover:bg-secondary-container dark:hover:bg-[#38485a] dark:text-gray-400 transition-all">
+                        <span class="material-symbols-outlined text-[32px]">sentiment_dissatisfied</span>
+                    </button>
+                    <button type="button" onclick="setMood('Nötr', this)" class="mood-btn p-2 rounded-full hover:bg-secondary-container dark:hover:bg-[#38485a] dark:text-gray-400 transition-all">
+                        <span class="material-symbols-outlined text-[32px]">sentiment_neutral</span>
+                    </button>
+                    <button type="button" onclick="setMood('İyi', this)" class="mood-btn p-2 rounded-full hover:bg-secondary-container dark:hover:bg-[#38485a] dark:text-gray-400 transition-all">
+                        <span class="material-symbols-outlined text-[32px]">sentiment_satisfied</span>
+                    </button>
+                    <button type="button" onclick="setMood('Çok İyi', this)" class="mood-btn p-2 rounded-full hover:bg-secondary-container dark:hover:bg-[#38485a] dark:text-gray-400 transition-all">
+                        <span class="material-symbols-outlined text-[32px]">sentiment_very_satisfied</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] rounded-lg shadow-sm border-t-2 border-primary dark:border-[#b7c8de] p-4 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-primary dark:text-white mb-1">Uyku Takibi</h3>
+                    <p class="text-sm text-on-surface-variant dark:text-gray-400 mb-4">Dün gece ne zaman uyudun?</p>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex-1">
+                        <label class="block text-xs font-bold text-on-surface-variant dark:text-gray-400 mb-1">Uyuma</label>
+                        <input type="time" name="sleep_start" value="{% if veri %}{{ veri.sleep_start }}{% else %}23:00{% endif %}" class="w-full bg-surface-container-low dark:bg-[#0b1d2d] border border-outline-variant dark:border-[#38485a] rounded p-2 text-primary dark:text-white outline-none"/>
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-xs font-bold text-on-surface-variant dark:text-gray-400 mb-1">Uyanma</label>
+                        <input type="time" name="sleep_end" value="{% if veri %}{{ veri.sleep_end }}{% else %}07:30{% endif %}" class="w-full bg-surface-container-low dark:bg-[#0b1d2d] border border-outline-variant dark:border-[#38485a] rounded p-2 text-primary dark:text-white outline-none"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] rounded-lg shadow-sm border-t-2 border-primary dark:border-[#b7c8de] p-4 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-primary dark:text-white mb-1">Ekran Süresi</h3>
+                    <p class="text-sm text-on-surface-variant dark:text-gray-400 mb-4">Günlük ekran süren ne kadar?</p>
+                </div>
+                <div class="relative">
+                    <input type="number" step="0.5" name="screen_time" value="{% if veri %}{{ veri.screen_time }}{% else %}4.0{% endif %}" class="w-full bg-surface-container-low dark:bg-[#0b1d2d] border border-outline-variant dark:border-[#38485a] rounded p-2 text-primary dark:text-white outline-none"/>
+                    <span class="absolute right-3 top-2 text-sm text-on-surface-variant dark:text-gray-400">Saat</span>
+                </div>
+            </div>
+
+            <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] rounded-lg shadow-sm border-t-2 border-primary dark:border-[#b7c8de] p-4 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-primary dark:text-white mb-1">Su Tüketimi</h3>
+                    <p class="text-sm text-on-surface-variant dark:text-gray-400 mb-4">Bugün kaç bardak su içtin?</p>
+                </div>
+                <div class="flex items-center justify-center bg-surface-container-low dark:bg-[#0b1d2d] p-2 rounded-lg">
+                    <span class="material-symbols-outlined text-primary dark:text-gray-400 mr-2">water_drop</span>
+                    <input type="number" name="water_count" value="{% if veri %}{{ veri.water }}{% else %}8{% endif %}" class="w-16 bg-transparent border-none text-xl font-bold text-primary dark:text-white text-center outline-none">
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-end mb-10">
+            <button type="submit" class="bg-primary dark:bg-white text-on-primary dark:text-primary font-bold px-8 py-3 rounded-lg hover:shadow-lg transition-all active:scale-95">
+                Verileri Güncelle / Kaydet
+            </button>
+        </div>
+    </form>
+
+    <script>
+    function setMood(moodValue, element) {
+        document.getElementById('selectedMood').value = moodValue;
+        document.querySelectorAll('.mood-btn').forEach(btn => {
+            btn.classList.remove('bg-secondary-container', 'dark:bg-[#38485a]', 'scale-110');
+            btn.querySelector('span').style.fontVariationSettings = "'FILL' 0";
+        });
+        element.classList.add('bg-secondary-container', 'dark:bg-[#38485a]', 'scale-110');
+        element.querySelector('span').style.fontVariationSettings = "'FILL' 1";
+    }
+    </script>
+{% endblock %}

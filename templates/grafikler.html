@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Grafikler - Süzgeç{% endblock %}
+
+{% block content %}
+    <div class="flex justify-between items-center mb-lg">
+        <h2 class="font-h2 text-h2 text-primary dark:text-white">Performans Analizi</h2>
+        
+        <div class="bg-surface-container-low dark:bg-[#0b1d2d] p-1 rounded-lg flex gap-1">
+            <button onclick="veriCek('haftalik', this)" class="zaman-btn px-4 py-2 rounded-md font-bold text-sm bg-primary dark:bg-white text-on-primary dark:text-[#1a2b3c] shadow-sm transition-all">7 Gün</button>
+            <button onclick="veriCek('aylik', this)" class="zaman-btn px-4 py-2 rounded-md font-bold text-sm text-on-surface-variant dark:text-gray-400 hover:bg-surface-container dark:hover:bg-[#38485a] transition-all">Aylık</button>
+            <button onclick="veriCek('3aylik', this)" class="zaman-btn px-4 py-2 rounded-md font-bold text-sm text-on-surface-variant dark:text-gray-400 hover:bg-surface-container dark:hover:bg-[#38485a] transition-all">3 Aylık</button>
+            <button onclick="veriCek('6aylik', this)" class="zaman-btn px-4 py-2 rounded-md font-bold text-sm text-on-surface-variant dark:text-gray-400 hover:bg-surface-container dark:hover:bg-[#38485a] transition-all">6 Aylık</button>
+            <button onclick="veriCek('yillik', this)" class="zaman-btn px-4 py-2 rounded-md font-bold text-sm text-on-surface-variant dark:text-gray-400 hover:bg-surface-container dark:hover:bg-[#38485a] transition-all">1 Yıllık</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-md mb-xl">
+        <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-md rounded-xl border border-outline-variant dark:border-[#38485a] shadow-sm lg:col-span-2">
+            <h3 class="font-h3 text-h3 text-secondary dark:text-gray-300 mb-sm">Uyku Süresi (Saat)</h3>
+            <div class="h-64"><canvas id="uykuGrafigi"></canvas></div>
+        </div>
+
+        <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-md rounded-xl border border-outline-variant dark:border-[#38485a] shadow-sm">
+            <h3 class="font-h3 text-h3 text-tertiary dark:text-gray-300 mb-sm">Su Tüketimi (Bardak)</h3>
+            <canvas id="suGrafigi"></canvas>
+        </div>
+
+        <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-md rounded-xl border border-outline-variant dark:border-[#38485a] shadow-sm">
+            <h3 class="font-h3 text-h3 text-error dark:text-gray-300 mb-sm">Ekran Süresi (Saat)</h3>
+            <canvas id="ekranGrafigi"></canvas>
+        </div>
+    </div>
+
+    <script>
+        let suChart, ekranChart, uykuChart;
+
+        // Sayfa yüklendiğinde
+        document.addEventListener("DOMContentLoaded", () => {
+            veriCek('haftalik');
+        });
+
+        function veriCek(periyot, element=null) {
+            // Buton animasyonları (Karanlık Mod dahil)
+            if (element) {
+                document.querySelectorAll('.zaman-btn').forEach(btn => {
+                    // Aktif sınıfları sil
+                    btn.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm', 'dark:bg-white', 'dark:text-[#1a2b3c]');
+                    // Pasif sınıfları ekle
+                    btn.classList.add('text-on-surface-variant', 'hover:bg-surface-container', 'dark:text-gray-400', 'dark:hover:bg-[#38485a]');
+                });
+                // Tıklanan butona aktif sınıfları ekle
+                element.classList.remove('text-on-surface-variant', 'hover:bg-surface-container', 'dark:text-gray-400', 'dark:hover:bg-[#38485a]');
+                element.classList.add('bg-primary', 'text-on-primary', 'shadow-sm', 'dark:bg-white', 'dark:text-[#1a2b3c]');
+            }
+
+            fetch(`/api/grafikler?periyot=${periyot}`)
+                .then(response => response.json())
+                .then(data => {
+                    grafikleriGuncelle(data.tarihler, data.su, data.ekran, data.uyku);
+                });
+        }
+
+        function grafikleriGuncelle(etiketler, suVerisi, ekranVerisi, uykuVerisi) {
+            
+            if(suChart) suChart.destroy();
+            if(ekranChart) ekranChart.destroy();
+            if(uykuChart) uykuChart.destroy();
+
+            // UYKU
+            uykuChart = new Chart(document.getElementById('uykuGrafigi'), {
+                type: 'line',
+                data: {
+                    labels: etiketler,
+                    datasets: [{
+                        label: 'Uyku (Saat)',
+                        data: uykuVerisi,
+                        backgroundColor: 'rgba(168, 85, 247, 0.2)',
+                        borderColor: 'rgba(168, 85, 247, 1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: 'rgba(168, 85, 247, 1)'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 12 } } }
+            });
+
+            // SU
+            suChart = new Chart(document.getElementById('suGrafigi'), {
+                type: 'bar',
+                data: {
+                    labels: etiketler,
+                    datasets: [{
+                        label: 'Su (Bardak)',
+                        data: suVerisi,
+                        backgroundColor: 'rgba(56, 189, 248, 0.6)',
+                        borderRadius: 4
+                    }]
+                },
+                options: { responsive: true, scales: { y: { beginAtZero: true } } }
+            });
+
+            // EKRAN
+            ekranChart = new Chart(document.getElementById('ekranGrafigi'), {
+                type: 'line',
+                data: {
+                    labels: etiketler,
+                    datasets: [{
+                        label: 'Ekran (Saat)',
+                        data: ekranVerisi,
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        borderWidth: 2,
+                        tension: 0.1
+                    }]
+                },
+                options: { responsive: true, scales: { y: { beginAtZero: true } } }
+            });
+        }
+    </script>
+{% endblock %}

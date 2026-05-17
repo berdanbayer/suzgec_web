@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Ayarlar - Süzgeç{% endblock %}
+
+{% block content %}
+    <h2 class="font-h2 text-h2 text-primary dark:text-white mb-lg">Ayarlar ve Profil</h2>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+        <div class="lg:col-span-1 bg-surface-container-lowest dark:bg-[#1a2b3c] p-lg rounded-xl shadow-sm border border-outline-variant dark:border-[#38485a]">
+            <div class="flex flex-col items-center text-center">
+                <div class="w-24 h-24 bg-primary-fixed dark:bg-[#0b1d2d] rounded-full flex items-center justify-center mb-md">
+                    <span class="material-symbols-outlined text-[48px] text-primary dark:text-white">person</span>
+                </div>
+                
+                <h3 class="font-h3 text-h3 text-primary dark:text-white">{{ current_user.fullname }}</h3>
+                <p class="text-on-surface-variant dark:text-gray-400 text-sm">{{ current_user.email }}</p>
+                
+                <div class="mt-lg w-full pt-md border-t border-outline-variant dark:border-[#38485a]">
+                    <div class="flex justify-between text-sm mb-xs">
+                        <span class="text-on-surface-variant dark:text-gray-400">Durum:</span>
+                        <span class="font-bold dark:text-white">Aktif Kullanıcı</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-2 space-y-md">
+            
+            <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-md rounded-xl shadow-sm border border-outline-variant dark:border-[#38485a]">
+                <h3 class="font-bold text-primary dark:text-white mb-md flex items-center gap-xs">
+                    <span class="material-symbols-outlined">palette</span> Görünüm Ayarları
+                </h3>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="setTheme('light')" class="flex flex-col items-center gap-2 py-md rounded-lg border-2 border-outline-variant dark:border-[#38485a] hover:border-primary dark:hover:border-white transition-all bg-white dark:bg-[#0b1d2d] text-primary dark:text-white">
+                        <span class="material-symbols-outlined">light_mode</span>
+                        <span class="font-bold">Açık Tema</span>
+                    </button>
+
+                    <button onclick="setTheme('dark')" class="flex flex-col items-center gap-2 py-md rounded-lg border-2 border-outline-variant dark:border-[#38485a] hover:border-primary dark:hover:border-white transition-all bg-white dark:bg-[#0b1d2d] text-primary dark:text-white">
+                        <span class="material-symbols-outlined">dark_mode</span>
+                        <span class="font-bold">Koyu Tema</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-md rounded-xl shadow-sm border border-outline-variant dark:border-[#38485a]">
+                <h3 class="font-bold text-primary dark:text-white mb-md flex items-center gap-xs">
+                    <span class="material-symbols-outlined">security</span> Hesap Güvenliği
+                </h3>
+                <div class="space-y-2">
+                    <button <div class="space-y-2">
+    <a href="{{ url_for('sifre') }}" 
+       class="w-full inline-block text-left p-sm rounded hover:bg-surface-container-low dark:hover:bg-[#0b1d2d] text-primary dark:text-white transition-all border border-transparent hover:border-outline-variant cursor-pointer">
+        Şifre Güncelle
+    </a>
+</div>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function setTheme(mode) {
+            if (mode === 'dark') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+    </script>
+{% endblock %}

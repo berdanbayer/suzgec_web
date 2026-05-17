@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Yardım Merkezi - Süzgeç{% endblock %}
+
+{% block content %}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter items-start pt-sm">
+        
+        <div class="lg:col-span-2 space-y-md">
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border-t-2 border-secondary p-md">
+                <h2 class="font-h3 text-h3 text-primary mb-md flex items-center gap-xs">
+                    <span class="material-symbols-outlined text-secondary">help</span>
+                    Sıkça Sorulan Sorular
+                </h2>
+                
+                <div class="space-y-sm">
+                    <div class="border border-outline-variant/40 rounded-lg overflow-hidden bg-surface-container-low">
+                        <button class="w-full text-left px-md py-sm flex justify-between items-center bg-surface-container-lowest hover:bg-surface-variant/20 transition-colors">
+                            <span class="font-label-bold text-label-bold text-primary">Verilerim nasıl saklanıyor?</span>
+                            <span class="material-symbols-outlined text-primary">expand_less</span>
+                        </button>
+                        <div class="px-md py-sm font-body-md text-body-md text-on-surface-variant border-t border-outline-variant/20">
+                            Tüm verileriniz endüstri standardı şifreleme yöntemleriyle güvenli sunucularımızda saklanmaktadır. Verilerinize sadece siz erişebilirsiniz ve hiçbir üçüncü tarafla paylaşılmaz.
+                        </div>
+                    </div>
+                    
+                    <div class="border border-outline-variant/40 rounded-lg overflow-hidden">
+                        <button class="w-full text-left px-md py-sm flex justify-between items-center hover:bg-surface-variant/20 transition-colors">
+                            <span class="font-label-bold text-label-bold text-on-background">Hedeflerimi nasıl sıfırlarım?</span>
+                            <span class="material-symbols-outlined text-outline">expand_more</span>
+                        </button>
+                    </div>
+                    
+                    <div class="border border-outline-variant/40 rounded-lg overflow-hidden">
+                        <button class="w-full text-left px-md py-sm flex justify-between items-center hover:bg-surface-variant/20 transition-colors">
+                            <span class="font-label-bold text-label-bold text-on-background">Karanlık temaya nasıl geçerim?</span>
+                            <span class="material-symbols-outlined text-outline">expand_more</span>
+                        </button>
+                    </div>
+                    
+                    <div class="border border-outline-variant/40 rounded-lg overflow-hidden">
+                        <button class="w-full text-left px-md py-sm flex justify-between items-center hover:bg-surface-variant/20 transition-colors">
+                            <span class="font-label-bold text-label-bold text-on-background">Aktivite geçmişimi dışa aktarabilir miyim?</span>
+                            <span class="material-symbols-outlined text-outline">expand_more</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="lg:col-span-1">
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border-t-2 border-primary p-md sticky top-24">
+                <h2 class="font-h3 text-h3 text-primary mb-sm flex items-center gap-xs">
+                    <span class="material-symbols-outlined text-primary">mail</span>
+                    Bize Ulaşın
+                </h2>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-md">Sorunuza yanıt bulamadınız mı? Bize doğrudan mesaj gönderin.</p>
+                
+                <form class="space-y-sm">
+                    <div class="space-y-xs">
+                        <label class="font-label-bold text-label-bold text-primary block" for="topic">Konu Seçiniz</label>
+                        <div class="relative">
+                            <select id="topic" class="w-full bg-surface-bright border border-outline-variant rounded-lg py-sm px-sm font-body-md text-body-md text-on-background appearance-none outline-none focus:border-primary focus:ring-1 focus:ring-primary cursor-pointer">
+                                <option value="" disabled selected>Lütfen bir konu seçin</option>
+                                <option value="hesap">Hesap İşlemleri</option>
+                                <option value="teknik">Teknik Sorun</option>
+                                <option value="oneri">Öneri & Geri Bildirim</option>
+                                <option value="diger">Diğer</option>
+                            </select>
+                            <span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-outline pointer-events-none">arrow_drop_down</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-xs">
+                        <label class="font-label-bold text-label-bold text-primary block" for="message">Mesajınız</label>
+                        <textarea id="message" rows="4" placeholder="Detaylı bilgi verin..." class="w-full bg-surface-bright border border-outline-variant rounded-lg py-sm px-sm font-body-md text-body-md text-on-background resize-none outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder-on-surface-variant/50"></textarea>
+                    </div>
+                    
+                    <button type="button" class="w-full bg-primary text-on-primary font-label-bold text-label-bold py-sm px-md rounded-lg hover:bg-primary/90 transition-colors mt-sm flex justify-center items-center gap-xs">
+                        Gönder
+                        <span class="material-symbols-outlined text-[18px]">send</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+{% endblock %}
