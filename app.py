@@ -307,4 +307,8 @@ def add_header(response):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
+
+    # Hata sayfaları modülünü içeri aktar ve uygulamaya kaydet
+from errors import bp as errors_bp
+app.register_blueprint(errors_bp)
