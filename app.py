@@ -22,6 +22,11 @@ login_manager.login_message_category = 'info'
 
 migrate = Migrate(app, db)
 
+# --- BLUEPRINT (HATA SAYFALARI) KAYDI ---
+# Doğru yer burasıdır: Uygulama başlatıldıktan sonra, rotalardan önce.
+from errors import bp as errors_bp
+app.register_blueprint(errors_bp)
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -58,7 +63,6 @@ class Goal(db.Model):
 
 # --- TÜM SAYFALAR İÇİN OTOMATİK DEĞİŞKENLER ---
 
-# app.py içine ekleyin
 @app.after_request
 def add_header(response):
     """Tarayıcının sayfaları önbelleğe almasını engeller."""
@@ -300,18 +304,14 @@ def logout():
     logout_user() 
     return redirect(url_for('login'))
 
-@app.after_request
-def add_header(response):
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = '0'
-    return response
+# --- SADECE TEST İÇİNDİR, 500! ---
+@app.route('/test-500')
+def test_500():
+    from flask import abort
+    abort(500) # Sisteme kasıtlı olarak 500 hatası verdiriyoruz
 
+# Sadece bir adet if __name__ bloğu kalmalı
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True, host='0.0.0.0', port=5000)
-
-    # Hata sayfaları modülünü içeri aktar ve uygulamaya kaydet
-from errors import bp as errors_bp
-app.register_blueprint(errors_bp)

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-screen text-center px-4">
+    <h1 class="text-9xl font-bold text-red-500 mb-4">500</h1>
+    <h2 class="text-3xl font-semibold text-gray-800 mb-4">Sistemsel Bir Hata Oluştu</h2>
+    <p class="text-gray-600 mb-8 max-w-md">
+        Şu anda sunucularımızda beklenmeyen bir sorun yaşanıyor. Lütfen paniğe kapılmayın, arka planda bu sorunu çözmek için çalışıyoruz.
+    </p>
+    <a href="{{ url_for('home') }}" class="px-6 py-3 bg-gray-600 text-white rounded-lg shadow hover:bg-gray-700 transition duration-300">
+        Tekrar Dene
+    </a>
+</div>
+{% endblock %}
