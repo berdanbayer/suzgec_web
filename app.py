@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, current_user, logout_user, login_required
 import os
 from datetime import datetime, timedelta
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 
@@ -18,6 +19,8 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
+
+migrate = Migrate(app, db)
 
 @login_manager.user_loader
 def load_user(user_id):
