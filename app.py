@@ -5,8 +5,14 @@ from flask_login import LoginManager, UserMixin, login_user, current_user, logou
 import os
 from datetime import datetime, timedelta
 from flask_migrate import Migrate
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+
+# --- DOSYA YÜKLEME AYARLARI ---
+UPLOAD_FOLDER = os.path.join(app.root_path, 'static/profile_pics')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+os.makedirs(UPLOAD_FOLDER, exist_ok=True) # Klasör yoksa otomatik oluşturur
 
 # --- GÜVENLİK VE VERİTABANI AYARLARI ---
 app.config['SECRET_KEY'] = 'suzgec-cok-gizli-anahtar-123'
@@ -33,14 +39,21 @@ def load_user(user_id):
 
 # --- VERİTABANI TABLOLARI (MODELS) ---
 
+# --- VERİTABANI TABLOLARI (MODELS) ---
+
 class User(db.Model, UserMixin):
     __table_args__ = {'extend_existing': True} 
     id = db.Column(db.Integer, primary_key=True)
     fullname = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    records = db.relationship('DailyRecord', backref='author', lazy=True)
-    goals = db.relationship('Goal', backref='user', uselist=False)
+    
+    # YENİ EKLENEN SATIR
+    profile_image = db.Column(db.String(120), default='default.jpg')
+    
+    # GÜNCELLENEN KISIM: backref yerine back_populates kullanıyoruz
+    records = db.relationship('DailyRecord', back_populates='author', lazy=True)
+    goals = db.relationship('Goal', back_populates='user', uselist=False)
 
 class DailyRecord(db.Model):
     __table_args__ = {'extend_existing': True}
@@ -52,6 +65,9 @@ class DailyRecord(db.Model):
     screen_time = db.Column(db.Float)
     water = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    
+    # GÜNCELLENEN KISIM: Ters bağlantıyı açıkça belirtiyoruz
+    author = db.relationship('User', back_populates='records')
 
 class Goal(db.Model):
     __table_args__ = {'extend_existing': True}
@@ -60,7 +76,10 @@ class Goal(db.Model):
     sleep_goal = db.Column(db.Float, default=8.0)
     water_goal = db.Column(db.Integer, default=8)
     screen_goal = db.Column(db.Float, default=4.0)
-
+    
+    # GÜNCELLENEN KISIM: Ters bağlantıyı açıkça belirtiyoruz
+    user = db.relationship('User', back_populates='goals')
+    
 # --- TÜM SAYFALAR İÇİN OTOMATİK DEĞİŞKENLER ---
 
 @app.after_request
@@ -265,10 +284,37 @@ def hedefler():
 def yardim():
     return render_template('yardim.html')
 
-@app.route('/ayarlar')
+@app.route('/ayarlar', methods=['GET', 'POST'])
 @login_required
 def ayarlar():
+    if request.method == 'POST':
+        # Formdan 'profile_pic' adında bir dosya geldi mi kontrol et
+        if 'profile_pic' in request.files:
+            file = request.files['profile_pic']
+            
+            # Kullanıcı dosya seçmeden kaydete bastıysa
+            if file.filename == '':
+                return redirect(url_for('ayarlar'))
+                
+            if file:
+                # Dosya adını güvenli hale getir
+                filename = secure_filename(file.filename)
+                # İsim çakışmalarını önlemek için başına kullanıcı ID'sini ekle
+                pic_name = f"user_{current_user.id}_{filename}"
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], pic_name)
+                
+                # Dosyayı sunucuya kaydet
+                file.save(filepath)
+                
+                # Veritabanını güncelle
+                current_user.profile_image = pic_name
+                db.session.commit()
+                
+                print(f"BAŞARILI: {current_user.fullname} profil fotoğrafını güncelledi!")
+                return redirect(url_for('ayarlar'))
+                
     return render_template('ayarlar.html')
+
 
 @app.route('/sifre', methods=['GET', 'POST'])
 @login_required
@@ -303,6 +349,25 @@ def sifre():
 def logout():
     logout_user() 
     return redirect(url_for('login'))
+
+@app.route('/api/v1/user-summary')
+@login_required
+def api_user_summary():
+    # Son 7 kaydı alıp istatistiksel bir özet dönelim
+    records = DailyRecord.query.filter_by(user_id=current_user.id).order_by(DailyRecord.date_str.desc()).limit(7).all()
+    
+    total_water = sum([r.water for r in records if r.water])
+    avg_screen = sum([r.screen_time for r in records if r.screen_time]) / len(records) if records else 0
+
+    return jsonify({
+        "user": current_user.fullname,
+        "period": "7-days",
+        "stats": {
+            "total_water_liters": total_water,
+            "average_screen_time": round(avg_screen, 1)
+        },
+        "status": "success"
+    })
 
 # --- SADECE TEST İÇİNDİR, 500! ---
 @app.route('/test-500')

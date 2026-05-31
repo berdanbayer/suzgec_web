@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: suzgec_container
+    ports:
+      - "5000:5000"
+    volumes:
+      # 1. Profil fotoğraflarını kalıcı yapar (Senin Mac'in ile Docker'ı bağlar)
+      - ./static/profile_pics:/app/static/profile_pics
+      # 2. Veritabanındaki tüm kayıtları kalıcı yapar
+      - ./suzgec.db:/app/suzgec.db
+    restart: unless-stopped
