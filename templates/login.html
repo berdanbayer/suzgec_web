@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-
-<html lang="tr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Süzgeç - Giriş Yap</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style>
+<html lang="tr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Süzgeç - Giriş Yap</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
         .material-symbols-outlined {
             font-family: 'Material Symbols Outlined';
             font-weight: normal;
@@ -25,7 +24,7 @@
             -webkit-font-smoothing: antialiased;
         }
     </style>
-<script id="tailwind-config">
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -119,76 +118,76 @@
     </script>
 </head>
 <body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
-<!-- TopNavBar (Login specific context, nav links hidden, but shell remains for brand anchor) -->
-<header class="w-full top-0 bg-background dark:bg-background z-50">
-<div class="flex justify-between items-center max-w-[1200px] mx-auto px-margin py-md">
-<div class="text-h3 font-h3 text-primary dark:text-primary-fixed">
-                Süzgeç
-            </div>
-<!-- Empty nav structure for future extension or standard placement -->
-<nav class="hidden"></nav>
-</div>
-</header>
-<!-- Main Content -->
-<main class="flex-grow flex items-center justify-center py-xl px-margin">
-<div class="max-w-[1200px] w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-xl items-center">
-<!-- Left Column: Branding & Value Prop -->
-<div class="flex flex-col gap-md max-w-lg">
-<h1 class="font-h1 text-h1 text-primary">Hayatınızı Süzgeçten Geçirin</h1>
-<p class="font-body-lg text-body-lg text-secondary">
+    <header class="w-full top-0 bg-background dark:bg-background z-50">
+        <div class="flex justify-between items-center max-w-[1200px] mx-auto px-margin py-md">
+            <div class="text-h3 font-h3 text-primary dark:text-primary-fixed">Süzgeç</div>
+            <nav class="hidden"></nav>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center py-xl px-margin">
+        <div class="max-w-[1200px] w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-xl items-center">
+            
+            <div class="flex flex-col gap-md max-w-lg">
+                <h1 class="font-h1 text-h1 text-primary">Hayatınızı Süzgeçten Geçirin</h1>
+                <p class="font-body-lg text-body-lg text-secondary">
                     Günlük aktivitelerinizi ve ruh halinizi analiz ederek size özel raporlar sunan kişisel verimlilik yardımcınız.
                 </p>
-<div class="hidden md:block mt-lg">
-<img alt="Data Analysis" class="w-full max-w-md rounded-xl shadow-md border border-surface-variant object-cover h-64" data-alt="A clean, modern workspace featuring a sleek laptop displaying crisp data visualizations and charts. The setting embodies a professional, data-driven aesthetic with a sophisticated palette of deep navy blues, soft grays, and bright whites. Soft, natural light illuminates the scene, creating a calm, controlled, and highly organized environment. The image communicates personal productivity and precise analytical tracking." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJB_Fh9vv98O-gNhvcxL2H5ce60T3r81np4Bj1RJ5Lvbj8922-3wP_J3hFNI3XHRDbpuF3830sx-EWD1J8DNSRcSZi-ghIFtfnWde_N-7T5mLgDhu5-RIstw8ZzA7j-GmSCd6c2mz9s01DwAix5lsCJWYkv055VxmXaHot1r2l8JbrlC3GKn8xBSawyOk-TTaQN-W-zqWSClv2s3TnhXHA4t1EdY9QZt_FipxAaKQ_xKU8BdyAC2OjqvoHN6bsWsVawzfFNAO3XXc"/>
-</div>
-</div>
-<!-- Right Column: Login Card -->
-<div class="w-full max-w-md mx-auto md:ml-auto">
-<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(26,43,60,0.08)] border-t-2 border-primary-fixed p-lg flex flex-col gap-md">
-<form method="POST" action="/login" class="flex flex-col gap-md">
-                <div class="flex flex-col gap-xs">
-                    <label class="font-label-bold text-label-bold text-primary" for="email">E-posta</label>
-                    <input type="email" id="email" name="email" placeholder="ornek@posta.com" required class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-md py-sm font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none shadow-sm"/>
+                <div class="hidden md:block mt-lg">
+                    <img alt="Data Analysis" class="w-full max-w-md rounded-xl shadow-md border border-surface-variant object-cover h-64" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJB_Fh9vv98O-gNhvcxL2H5ce60T3r81np4Bj1RJ5Lvbj8922-3wP_J3hFNI3XHRDbpuF3830sx-EWD1J8DNSRcSZi-ghIFtfnWde_N-7T5mLgDhu5-RIstw8ZzA7j-GmSCd6c2mz9s01DwAix5lsCJWYkv055VxmXaHot1r2l8JbrlC3GKn8xBSawyOk-TTaQN-W-zqWSClv2s3TnhXHA4t1EdY9QZt_FipxAaKQ_xKU8BdyAC2OjqvoHN6bsWsVawzfFNAO3XXc"/>
                 </div>
-                <div class="flex flex-col gap-xs">
-                    <label class="font-label-bold text-label-bold text-primary" for="password">Şifre</label>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-md py-sm font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none shadow-sm"/>
-                </div>
-                <button type="submit" class="mt-sm w-full bg-primary text-on-primary font-label-bold text-label-bold py-sm rounded-lg hover:bg-primary-container transition-colors shadow-sm">
-                    Giriş Yap
-                </button>
-            </form>
-<!-- Forgot Password Link -->
-<div class="text-center">
-<a class="font-label-bold text-label-bold text-secondary hover:text-primary transition-colors" href="#">Şifrenizi mi unuttunuz?</a>
-</div>
-<!-- Divider -->
-<div class="flex items-center gap-sm my-xs">
-<div class="flex-grow border-t border-outline-variant"></div>
-<div class="border-t border-outline-variant flex-grow"></div>
-</div>
-<!-- Register Action -->
-<div class="text-center mt-xs">
-<a href="/register" class="inline-block bg-primary-fixed text-primary font-label-bold text-label-bold px-lg py-sm rounded-lg hover:bg-primary-fixed-dim transition-colors shadow-sm">
-    Yeni Hesap Oluştur
-</a>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- Footer -->
-<footer class="w-full bg-surface-container-low dark:bg-surface-container-lowest mt-auto border-t border-surface-variant">
-<div class="max-w-[1200px] mx-auto px-margin py-lg flex flex-col md:flex-row justify-between items-center gap-sm">
-<div class="text-label-bold font-label-bold text-primary">
-                Süzgeç
             </div>
-<nav class="flex flex-wrap justify-center gap-md">
-<a class="font-caption text-caption text-on-surface-variant transition-opacity hover:opacity-80 hover:underline" href="#">Hakkımızda</a>
-<a class="font-caption text-caption text-on-surface-variant transition-opacity hover:opacity-80 hover:underline" href="#">Gizlilik Politikası</a>
-<a class="font-caption text-caption text-on-surface-variant transition-opacity hover:opacity-80 hover:underline" href="#">Kullanım Koşulları</a>
-</nav>
-<div class="font-caption text-caption text-on-surface-variant">© 2026 Süzgeç. Tüm hakları saklıdır.</div>
-</div>
-</footer>
-</body></html>
+
+            <div class="w-full max-w-md mx-auto md:ml-auto">
+                <div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(26,43,60,0.08)] border-t-2 border-primary-fixed p-lg flex flex-col gap-md">
+                    
+                    <form method="POST" action="" class="flex flex-col gap-md">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="flex flex-col gap-xs">
+                            <label class="font-label-bold text-label-bold text-primary" for="email">E-posta</label>
+                            <input type="email" id="email" name="email" placeholder="ornek@posta.com" required class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-md py-sm font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none shadow-sm"/>
+                        </div>
+                        
+                        <div class="flex flex-col gap-xs">
+                            <label class="font-label-bold text-label-bold text-primary" for="password">Şifre</label>
+                            <input type="password" id="password" name="password" placeholder="••••••••" required class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-md py-sm font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none shadow-sm"/>
+                        </div>
+                        
+                        <button type="submit" class="mt-sm w-full bg-primary text-on-primary font-label-bold text-label-bold py-sm rounded-lg hover:bg-primary-container transition-colors shadow-sm">
+                            Giriş Yap
+                        </button>
+                    </form>
+
+                    <div class="text-center">
+                        <a href="{{ url_for('reset_request') }}" class="font-label-bold text-label-bold text-secondary hover:text-primary transition-colors">Şifrenizi mi unuttunuz?</a>
+                    </div>
+                    
+                    <div class="flex items-center gap-sm my-xs">
+                        <div class="flex-grow border-t border-outline-variant"></div>
+                        <div class="border-t border-outline-variant flex-grow"></div>
+                    </div>
+                    
+                    <div class="text-center mt-xs">
+                        <a href="{{ url_for('register') }}" class="inline-block bg-primary-fixed text-primary font-label-bold text-label-bold px-lg py-sm rounded-lg hover:bg-primary-fixed-dim transition-colors shadow-sm">
+                            Yeni Hesap Oluştur
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full bg-surface-container-low dark:bg-surface-container-lowest mt-auto border-t border-surface-variant">
+        <div class="max-w-[1200px] mx-auto px-margin py-lg flex flex-col md:flex-row justify-between items-center gap-sm">
+            <div class="text-label-bold font-label-bold text-primary">Süzgeç</div>
+            <nav class="flex flex-wrap justify-center gap-md">
+                <a class="font-caption text-caption text-on-surface-variant transition-opacity hover:opacity-80 hover:underline" href="#">Hakkımızda</a>
+                <a class="font-caption text-caption text-on-surface-variant transition-opacity hover:opacity-80 hover:underline" href="#">Gizlilik Politikası</a>
+                <a class="font-caption text-caption text-on-surface-variant transition-opacity hover:opacity-80 hover:underline" href="#">Kullanım Koşulları</a>
+            </nav>
+            <div class="font-caption text-caption text-on-surface-variant">© 2026 Süzgeç. Tüm hakları saklıdır.</div>
+        </div>
+    </footer>
+</body>
+</html>

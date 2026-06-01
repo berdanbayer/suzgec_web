@@ -23,9 +23,17 @@
         }
     </script>
     <style> body { font-family: 'Manrope', sans-serif; } </style>
-</head>
-<body class="bg-background text-on-surface dark:bg-[#0b1d2d] dark:text-[#f2f0f2] min-h-screen">
+<script>
+    // Sayfa yüklenirken kullanıcının seçtiği temayı kontrol et
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+    } else {
+        document.documentElement.classList.remove('dark')
+    }
+</script>
 
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-[#0b1d2d] dark:text-white transition-colors duration-300">
 </body>
     <header class="bg-surface dark:bg-[#1a2b3c] docked full-width top-0 z-10 flex justify-between items-center w-full pl-[288px] pr-margin py-md fixed border-b border-surface-variant dark:border-[#38485a]">
         <div>
@@ -55,26 +63,30 @@
             
             <div class="space-y-xs">
                 <a href="/" class="flex items-center gap-sm px-sm py-base rounded-DEFAULT font-body-md text-body-md transition-colors hover:bg-secondary-container dark:hover:bg-[#0b1d2d] {% if request.endpoint == 'home' %}text-primary dark:text-white font-bold border-r-4 border-primary dark:border-white{% else %}text-on-surface-variant dark:text-gray-400{% endif %}">
-                    <span class="material-symbols-outlined" {% if request.endpoint == 'home' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>home</span> Ana Sayfa
+                    <span class="material-symbols-outlined" {% if request.endpoint == 'home' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>home</span> {{ t.menu_ana_sayfa }}
                 </a>
                 <a href="/grafikler" class="flex items-center gap-sm px-sm py-base rounded-DEFAULT font-body-md text-body-md transition-colors hover:bg-secondary-container dark:hover:bg-[#0b1d2d] {% if request.endpoint == 'grafikler' %}text-primary dark:text-white font-bold border-r-4 border-primary dark:border-white{% else %}text-on-surface-variant dark:text-gray-400{% endif %}">
-                    <span class="material-symbols-outlined" {% if request.endpoint == 'grafikler' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>insights</span> Grafikler
+                    <span class="material-symbols-outlined" {% if request.endpoint == 'grafikler' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>insights</span> {{ t.menu_grafikler }}
                 </a>
                 <a href="/hedefler" class="flex items-center gap-sm px-sm py-base rounded-DEFAULT font-body-md text-body-md transition-colors hover:bg-secondary-container dark:hover:bg-[#0b1d2d] {% if request.endpoint == 'hedefler' %}text-primary dark:text-white font-bold border-r-4 border-primary dark:border-white{% else %}text-on-surface-variant dark:text-gray-400{% endif %}">
-                    <span class="material-symbols-outlined" {% if request.endpoint == 'hedefler' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>center_focus_strong</span> Hedefler
+                    <span class="material-symbols-outlined" {% if request.endpoint == 'hedefler' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>center_focus_strong</span> {{ t.menu_hedefler }}
                 </a>
                 <a href="/ayarlar" class="flex items-center gap-sm px-sm py-base rounded-DEFAULT font-body-md text-body-md transition-colors hover:bg-secondary-container dark:hover:bg-[#0b1d2d] {% if request.endpoint == 'ayarlar' %}text-primary dark:text-white font-bold border-r-4 border-primary dark:border-white{% else %}text-on-surface-variant dark:text-gray-400{% endif %}">
-                    <span class="material-symbols-outlined" {% if request.endpoint == 'ayarlar' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>settings</span> Ayarlar
+                    <span class="material-symbols-outlined" {% if request.endpoint == 'ayarlar' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>settings</span> {{ t.menu_ayarlar }}
                 </a>
             </div>
         </div>
 
         <div class="space-y-xs pt-md border-t border-surface-variant dark:border-[#38485a]">
             <a href="/yardim" class="flex items-center gap-sm px-sm py-base rounded-DEFAULT font-body-md text-body-md text-on-surface-variant dark:text-gray-400 hover:bg-secondary-container dark:hover:bg-[#0b1d2d] transition-colors">
-                <span class="material-symbols-outlined">help_outline</span> Yardım Merkezi
+                <span class="material-symbols-outlined">help_outline</span> {{ t.menu_yardim }}
             </a>
+            <a href="{{ url_for('arama') }}" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-gray-300 hover:bg-surface-container-low dark:hover:bg-[#1a2b3c] rounded-xl transition-all">
+    <span class="material-symbols-outlined">search</span>
+    <span class="font-medium">{{ t.menu_arama }}</span>
+</a>
             <a href="/logout" class="flex items-center gap-sm px-sm py-base rounded-DEFAULT font-body-md text-body-md text-error hover:bg-error-container dark:hover:bg-error-container/20 transition-colors">
-                <span class="material-symbols-outlined">logout</span> Çıkış
+                <span class="material-symbols-outlined">logout</span> {{ t.menu_cikis }}
             </a>
         </div>
     </nav>

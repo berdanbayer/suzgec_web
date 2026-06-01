@@ -6,6 +6,7 @@
     <h2 class="font-h2 text-h2 text-primary dark:text-white mb-lg">Kişisel Hedeflerin</h2>
 
     <form method="POST" action="/hedefler">
+        
         <div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-xl">
             <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-md rounded-xl border border-outline-variant dark:border-[#38485a] shadow-sm">
                 <div class="flex items-center gap-sm mb-md">
@@ -41,4 +42,5 @@
             </button>
         </div>
     </form>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 {% endblock %}

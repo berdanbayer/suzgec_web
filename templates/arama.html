@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Kayıtlarda Ara - Süzgeç{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-8 rounded-2xl shadow-sm border border-outline-variant dark:border-[#38485a] mb-8">
+        <h2 class="text-2xl font-bold text-primary dark:text-white mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined">search</span> Geçmiş Ruh Hallerinde Ara
+        </h2>
+        
+        <form method="GET" action="{{ url_for('arama') }}" class="flex gap-4">
+            <input type="text" name="q" value="{{ arama_kelimesi }}" placeholder="Örn: mutlu, yorgun, enerjik, stresli..." required
+                   class="flex-1 px-4 py-3 rounded-lg bg-white dark:bg-[#0b1d2d] border border-outline-variant dark:border-[#38485a] text-primary dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
+            <button type="submit" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition shadow-md flex items-center gap-2 cursor-pointer">
+                <span class="material-symbols-outlined">search</span> Ara
+            </button>
+        </form>
+    </div>
+
+    {% if arama_kelimesi %}
+        <h3 class="text-xl font-bold text-primary dark:text-white mb-4">
+            "<span class="text-blue-500">{{ arama_kelimesi }}</span>" için sonuçlar (Toplam {{ sonuclar.total }} kayıt)
+        </h3>
+        
+        {% if sonuclar.items %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for kayit in sonuclar.items %}
+                <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-5 rounded-xl border border-outline-variant dark:border-[#38485a] hover:border-blue-500 transition shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-sm text-on-surface-variant dark:text-gray-400 font-bold flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[18px]">calendar_month</span> {{ kayit.date_str }}
+                        </span>
+                        <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm rounded-full font-bold">
+                            {{ kayit.mood }}
+                        </span>
+                    </div>
+                    <div class="text-sm text-on-surface-variant dark:text-gray-300 grid grid-cols-2 gap-2 bg-surface-container-low dark:bg-[#0b1d2d] p-3 rounded-lg">
+                        <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-blue-400">water_drop</span> Su: {{ kayit.water }}</div>
+                        <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-purple-400">smartphone</span> Ekran: {{ kayit.screen_time }}s</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if sonuclar.pages > 1 %}
+            <div class="flex justify-center items-center mt-10 gap-2">
+                
+                {% if sonuclar.has_prev %}
+                    <a href="{{ url_for('arama', q=arama_kelimesi, page=sonuclar.prev_num) }}" class="p-2 rounded-lg bg-surface-container-lowest dark:bg-[#1a2b3c] border border-outline-variant dark:border-[#38485a] text-primary dark:text-white hover:bg-blue-600 hover:border-blue-600 hover:text-white transition shadow-sm">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </a>
+                {% else %}
+                    <span class="p-2 rounded-lg bg-surface-container-low opacity-50 dark:bg-[#0b1d2d] border border-outline-variant dark:border-[#1a2b3c] text-gray-400 cursor-not-allowed">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </span>
+                {% endif %}
+
+                {% for sayfa_no in sonuclar.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                    {% if sayfa_no %}
+                        {% if sonuclar.page == sayfa_no %}
+                            <span class="px-4 py-2 rounded-lg bg-blue-600 text-white font-bold shadow-md">{{ sayfa_no }}</span>
+                        {% else %}
+                            <a href="{{ url_for('arama', q=arama_kelimesi, page=sayfa_no) }}" class="px-4 py-2 rounded-lg bg-surface-container-lowest dark:bg-[#1a2b3c] border border-outline-variant dark:border-[#38485a] text-primary dark:text-white hover:bg-blue-600 hover:border-blue-600 hover:text-white transition shadow-sm">{{ sayfa_no }}</a>
+                        {% endif %}
+                    {% else %}
+                        <span class="px-2 text-on-surface-variant dark:text-gray-500">...</span>
+                    {% endif %}
+                {% endfor %}
+
+                {% if sonuclar.has_next %}
+                    <a href="{{ url_for('arama', q=arama_kelimesi, page=sonuclar.next_num) }}" class="p-2 rounded-lg bg-surface-container-lowest dark:bg-[#1a2b3c] border border-outline-variant dark:border-[#38485a] text-primary dark:text-white hover:bg-blue-600 hover:border-blue-600 hover:text-white transition shadow-sm">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </a>
+                {% else %}
+                    <span class="p-2 rounded-lg bg-surface-container-low opacity-50 dark:bg-[#0b1d2d] border border-outline-variant dark:border-[#1a2b3c] text-gray-400 cursor-not-allowed">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </span>
+                {% endif %}
+
+            </div>
+            {% endif %}
+
+        {% else %}
+            <div class="text-center p-10 bg-surface-container-lowest dark:bg-[#1a2b3c] rounded-xl border border-outline-variant dark:border-[#38485a]">
+                <span class="material-symbols-outlined text-[64px] text-gray-400 dark:text-gray-600 mb-4">search_off</span>
+                <p class="text-lg text-on-surface-variant dark:text-gray-400 font-medium">Bu kelimeyle eşleşen bir ruh hali kaydı bulunamadı.</p>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

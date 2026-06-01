@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Ayarlar - Süzgeç{% endblock %}
+{% block title %}{{ t.ayarlar_baslik }} - Süzgeç{% endblock %}
 
 {% block content %}
-    <h2 class="font-h2 text-h2 text-primary dark:text-white mb-lg">Ayarlar ve Profil</h2>
+    <h2 class="font-h2 text-h2 text-primary dark:text-white mb-lg">{{ t.ayarlar_baslik }}</h2>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
         <div class="lg:col-span-1 bg-surface-container-lowest dark:bg-[#1a2b3c] p-lg rounded-xl shadow-sm border border-outline-variant dark:border-[#38485a]">
@@ -17,7 +17,6 @@
                             <span class="material-symbols-outlined text-[48px] text-primary dark:text-white">person</span>
                         </div>
                     {% endif %}
-                    
                     <button onclick="openModal()" class="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full text-white hover:bg-blue-700 transition shadow-lg cursor-pointer flex items-center justify-center border-2 border-white dark:border-[#1a2b3c]">
                         <span class="material-symbols-outlined text-sm">edit</span>
                     </button>
@@ -28,9 +27,9 @@
                 
                 <div class="mt-lg w-full pt-md border-t border-outline-variant dark:border-[#38485a]">
                     <div class="flex justify-between text-sm mb-xs">
-                        <span class="text-on-surface-variant dark:text-gray-400">Durum:</span>
+                        <span class="text-on-surface-variant dark:text-gray-400">{{ t.durum }}</span>
                         <span class="font-bold dark:text-white flex items-center gap-1">
-                            <span class="w-2 h-2 rounded-full bg-green-500"></span> Aktif Kullanıcı
+                            <span class="w-2 h-2 rounded-full bg-green-500"></span> {{ t.aktif }}
                         </span>
                     </div>
                 </div>
@@ -41,64 +40,52 @@
             
             <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-md rounded-xl shadow-sm border border-outline-variant dark:border-[#38485a]">
                 <h3 class="font-bold text-primary dark:text-white mb-md flex items-center gap-xs">
-                    <span class="material-symbols-outlined">palette</span> Görünüm Ayarları
+                    <span class="material-symbols-outlined">palette</span> {{ t.gorunum }}
                 </h3>
                 
                 <div class="grid grid-cols-2 gap-4">
                     <button onclick="setTheme('light')" class="flex flex-col items-center gap-2 py-md rounded-lg border-2 border-outline-variant dark:border-[#38485a] hover:border-primary dark:hover:border-white transition-all bg-white dark:bg-[#0b1d2d] text-primary dark:text-white">
                         <span class="material-symbols-outlined">light_mode</span>
-                        <span class="font-bold">Açık Tema</span>
+                        <span class="font-bold">{{ t.acik_tema }}</span>
                     </button>
 
                     <button onclick="setTheme('dark')" class="flex flex-col items-center gap-2 py-md rounded-lg border-2 border-outline-variant dark:border-[#38485a] hover:border-primary dark:hover:border-white transition-all bg-white dark:bg-[#0b1d2d] text-primary dark:text-white">
                         <span class="material-symbols-outlined">dark_mode</span>
-                        <span class="font-bold">Koyu Tema</span>
+                        <span class="font-bold">{{ t.koyu_tema }}</span>
                     </button>
                 </div>
             </div>
 
             <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-md rounded-xl shadow-sm border border-outline-variant dark:border-[#38485a]">
                 <h3 class="font-bold text-primary dark:text-white mb-md flex items-center gap-xs">
-                    <span class="material-symbols-outlined">security</span> Hesap Güvenliği
+                    <span class="material-symbols-outlined">security</span> {{ t.guvenlik }}
                 </h3>
                 <div class="space-y-2">
-                    <a href="{{ url_for('sifre') }}" 
-                       class="w-full flex items-center gap-2 p-sm rounded hover:bg-surface-container-low dark:hover:bg-[#0b1d2d] text-primary dark:text-white transition-all border border-transparent hover:border-outline-variant dark:hover:border-[#38485a] cursor-pointer font-medium">
-                        <span class="material-symbols-outlined">key</span> Şifre Güncelle
+                    <a href="{{ url_for('sifre') }}" class="w-full flex items-center gap-2 p-sm rounded hover:bg-surface-container-low dark:hover:bg-[#0b1d2d] text-primary dark:text-white transition-all border border-transparent hover:border-outline-variant dark:hover:border-[#38485a] cursor-pointer font-medium">
+                        <span class="material-symbols-outlined">key</span> {{ t.sifre_guncelle }}
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] p-md rounded-xl shadow-sm border border-outline-variant dark:border-[#38485a]">
+                <h3 class="font-bold text-primary dark:text-white mb-md flex items-center gap-xs">
+                    <span class="material-symbols-outlined">language</span> {{ t.dil_ayarlari }}
+                </h3>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="{{ url_for('dili_degistir', yeni_dil='tr') }}" class="flex flex-col items-center gap-2 py-md rounded-lg border-2 {% if mevcut_dil == 'tr' %}border-blue-500 bg-blue-50 dark:bg-blue-900/20{% else %}border-outline-variant dark:border-[#38485a] bg-white dark:bg-[#0b1d2d]{% endif %} hover:border-primary dark:hover:border-white transition-all text-primary dark:text-white text-center">
+                        <span class="text-2xl">🇹🇷</span>
+                        <span class="font-bold">Türkçe</span>
+                    </a>
+
+                    <a href="{{ url_for('dili_degistir', yeni_dil='en') }}" class="flex flex-col items-center gap-2 py-md rounded-lg border-2 {% if mevcut_dil == 'en' %}border-blue-500 bg-blue-50 dark:bg-blue-900/20{% else %}border-outline-variant dark:border-[#38485a] bg-white dark:bg-[#0b1d2d]{% endif %} hover:border-primary dark:hover:border-white transition-all text-primary dark:text-white text-center">
+                        <span class="text-2xl">🇬🇧</span>
+                        <span class="font-bold">English</span>
                     </a>
                 </div>
             </div>
 
         </div>
-    </div>
-
-    <div id="uploadModal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 backdrop-blur-sm transition-opacity duration-300">
-        <form action="{{ url_for('ayarlar') }}" method="POST" enctype="multipart/form-data" class="bg-surface-container-lowest dark:bg-[#1a2b3c] rounded-2xl p-8 w-96 shadow-2xl border border-outline-variant dark:border-[#38485a] transform transition-transform duration-300">
-            
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl text-primary dark:text-white font-bold">Fotoğrafı Güncelle</h3>
-                <button type="button" onclick="closeModal()" class="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-white transition">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
-            </div>
-
-            <div class="mb-6">
-                <label class="block text-on-surface-variant dark:text-gray-400 text-sm mb-3">Yeni bir görsel seçin (PNG, JPG)</label>
-                <input type="file" name="profile_pic" accept="image/*" required
-                       class="block w-full text-sm text-on-surface-variant dark:text-gray-400
-                              file:mr-4 file:py-2.5 file:px-4
-                              file:rounded-lg file:border-0
-                              file:text-sm file:font-semibold
-                              file:bg-blue-600 file:text-white
-                              hover:file:bg-blue-700
-                              cursor-pointer bg-white dark:bg-[#0b1d2d] border border-outline-variant dark:border-[#38485a] rounded-lg focus:outline-none">
-            </div>
-
-            <div class="flex justify-end gap-3 mt-8">
-                <button type="button" onclick="closeModal()" class="px-5 py-2.5 bg-transparent border border-outline-variant dark:border-[#38485a] text-primary dark:text-white rounded-lg hover:bg-surface-container-low dark:hover:bg-[#0b1d2d] transition font-medium">İptal</button>
-                <button type="submit" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium shadow-md">Kaydet</button>
-            </div>
-        </form>
     </div>
 
     <script>
@@ -113,7 +100,7 @@
             }
         }
 
-        // Modal (Pop-up) açma kapatma fonksiyonları
+        // Profil fotoğrafı Modal (Pop-up) fonksiyonları
         function openModal() { 
             const modal = document.getElementById('uploadModal');
             modal.classList.remove('hidden');
@@ -124,4 +111,5 @@
             modal.classList.add('hidden');
         }
     </script>
-{% endblock %}
+    
+    {% endblock %}

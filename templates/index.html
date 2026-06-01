@@ -28,6 +28,8 @@
     <h2 class="font-h2 text-h2 text-primary dark:text-white mb-6">Veri Girişi Yap</h2>
     
     <form method="POST" action="/">
+        {{ form.hidden_tag() }}
+        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             
             <div class="bg-surface-container-lowest dark:bg-[#1a2b3c] rounded-lg shadow-sm border-t-2 border-primary dark:border-[#b7c8de] p-4 flex flex-col justify-between">
